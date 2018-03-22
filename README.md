@@ -2,6 +2,8 @@
 
 Infobip API client library in Go
 
+[![Build Status](https://travis-ci.org/nuveo/infobip.svg?branch=master)](https://travis-ci.org/nuveo/infobip)
+
 ## Usage
 
 To initiate a client, you should use the `infobip.ClientWithBasicAuth` func. This will returns a pointer to `infobip.Client` and allows to you use features from service. The func needs a `infobip.Message` struct. That struct consists of the following attributes:
