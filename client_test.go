@@ -36,7 +36,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 				"messages": [{"to": "41793026727"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 					},
 				},
@@ -47,7 +47,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 				"messages": [{"to": "41793026727", "smsCount": 1}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To:       "41793026727",
 						SMSCount: 1,
 					},
@@ -58,7 +58,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To:       "41793026727",
 						SMSCount: 1,
 						ID:       "2250be2d4219-3af1-78856-aabe-1362af1edfd2",
@@ -70,7 +70,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "status": {"id": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 						Status: ResponseStatus{
 							ID: 0,
@@ -85,7 +85,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 						Status: ResponseStatus{
 							ID:      0,
@@ -101,7 +101,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 						Status: ResponseStatus{
 							ID:        0,
@@ -118,7 +118,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 						Status: ResponseStatus{
 							ID:        0,
@@ -136,7 +136,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED", "description": "Message accepted"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
-					ResponseMessage{
+					{
 						To: "41793026727",
 						Status: ResponseStatus{
 							ID:          0,
