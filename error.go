@@ -1,8 +1,6 @@
 package infobip
 
-import (
-	"fmt"
-)
+import "fmt"
 
 var (
 	// ErrForNonAlphanumeric for invalid numbers
