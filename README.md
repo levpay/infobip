@@ -3,6 +3,8 @@
 Infobip API client library in Go
 
 [![Build Status](https://travis-ci.org/nuveo/infobip.svg?branch=master)](https://travis-ci.org/nuveo/infobip)
+[![GoDoc](https://godoc.org/github.com/nuveo/infobip?status.png)](https://godoc.org/github.com/nuveo/infobip)
+[![Go Report Card](https://goreportcard.com/badge/github.com/nuveo/infobip)](https://goreportcard.com/report/github.com/nuveo/infobip)
 
 ## Usage
 
