@@ -16,22 +16,26 @@ func (c *HTTPClientMock) Do(req *http.Request) (*http.Response, error) {
 	return c.Response, nil
 }
 
-func TestForSingleResponseMessages(t *testing.T) {
-	response := []struct {
-		body string
-		data Response
+func TestForResponseMessages(t *testing.T) {
+	tests := []struct {
+		reference string
+		body      string
+		data      Response
 	}{
 		{
-			body: `{}`,
-			data: Response{},
+			reference: "#1",
+			body:      `{}`,
+			data:      Response{},
 		},
 		{
-			body: `{"messages": []}`,
+			reference: "#2",
+			body:      `{"messages": []}`,
 			data: Response{
 				Messages: []ResponseMessage{},
 			},
 		},
 		{
+			reference: "#3",
 			body: `{
 				"messages": [{"to": "41793026727"}]}`,
 			data: Response{
@@ -43,6 +47,7 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
+			reference: "#4",
 			body: `{
 				"messages": [{"to": "41793026727", "smsCount": 1}]}`,
 			data: Response{
@@ -55,7 +60,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#5",
+			body:      `{"messages": [{"to": "41793026727", "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -67,7 +73,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "status": {"id": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#6",
+			body:      `{"messages": [{"to": "41793026727", "status": {"id": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -82,7 +89,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#7",
+			body:      `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -98,7 +106,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#8",
+			body:      `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -115,7 +124,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#9",
+			body:      `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -133,7 +143,8 @@ func TestForSingleResponseMessages(t *testing.T) {
 			},
 		},
 		{
-			body: `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED", "description": "Message accepted"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
+			reference: "#10",
+			body:      `{"messages": [{"to": "41793026727", "status": {"id": 0, "groupId": 0, "groupName": "ACCEPTED", "name": "MESSAGE_ACCEPTED", "description": "Message accepted"}, "smsCount": 1, "messageId": "2250be2d4219-3af1-78856-aabe-1362af1edfd2"}]}`,
 			data: Response{
 				Messages: []ResponseMessage{
 					{
@@ -160,18 +171,83 @@ func TestForSingleResponseMessages(t *testing.T) {
 	}
 
 	client := ClientWithBasicAuth("foo", "bar")
-	for _, response := range response {
-		client.HTTPClient = &HTTPClientMock{
-			Response: &http.Response{
-				Body: ioutil.NopCloser(bytes.NewBufferString(response.body)),
+	for _, test := range tests {
+		test := test
+		t.Run(test.reference, func(t *testing.T) {
+			client.HTTPClient = &HTTPClientMock{
+				Response: &http.Response{
+					Body: ioutil.NopCloser(bytes.NewBufferString(test.body)),
+				},
+			}
+			r, err := client.SingleMessage(message)
+			if err != nil {
+				t.Errorf("Error: unexpected error was returned (%s)", err)
+			}
+			if !reflect.DeepEqual(r, test.data) {
+				t.Errorf("expected '%v', got '%v'", test.data, r)
+			}
+		})
+	}
+}
+
+func TestForSingleMessageError(t *testing.T) {
+	tests := []struct {
+		reference string
+		message   Message
+		err       error
+	}{
+		{
+			reference: "#1",
+			message:   Message{},
+			err:       ErrForFromNonAlphanumeric,
+		},
+	}
+
+	client := ClientWithBasicAuth("foo", "bar")
+	client.HTTPClient = &HTTPClientMock{
+		Response: &http.Response{
+			Body: ioutil.NopCloser(nil),
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.reference, func(t *testing.T) {
+			if _, err := client.SingleMessage(test.message); err != test.err {
+				t.Errorf("expected '%v', got '%v'", test.err, err)
+			}
+		})
+	}
+}
+
+func TestForAdvancedMessageError(t *testing.T) {
+	tests := []struct {
+		reference string
+		message   BulkMessage
+		err       error
+	}{
+		{
+			reference: "#1",
+			message: BulkMessage{
+				Messages: []Message{
+					Message{},
+				},
 			},
-		}
-		r, err := client.SingleMessage(message)
-		if err != nil {
-			t.Errorf("Error: unexpected error was returned (%s)", err)
-		}
-		if !reflect.DeepEqual(r, response.data) {
-			t.Errorf("expected '%v', got '%v'", response.data, r)
-		}
+			err: ErrForFromNonAlphanumeric,
+		},
+	}
+
+	client := ClientWithBasicAuth("foo", "bar")
+	client.HTTPClient = &HTTPClientMock{
+		Response: &http.Response{
+			Body: ioutil.NopCloser(nil),
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.reference, func(t *testing.T) {
+			if _, err := client.AdvancedMessage(test.message); err != test.err {
+				t.Errorf("expected '%v', got '%v'", test.err, err)
+			}
+		})
 	}
 }

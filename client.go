@@ -9,6 +9,9 @@ import (
 const (
 	//SingleMessagePath for sending a single message
 	SingleMessagePath = "sms/1/text/single"
+
+	//AdvancedMessagePath for sending advanced messages
+	AdvancedMessagePath = "sms/1/text/advanced"
 )
 
 // HTTPInterface helps Infobip tests
@@ -43,13 +46,30 @@ func (c Client) SingleMessage(m Message) (r Response, err error) {
 	if err != nil {
 		return
 	}
-	req, err := http.NewRequest(http.MethodPost, c.BaseURL+SingleMessagePath, bytes.NewBuffer(b))
+	r, err = c.defaultRequest(b, SingleMessagePath)
+	return
+}
+
+// AdvancedMessage sends messages to the recipients
+func (c Client) AdvancedMessage(m BulkMessage) (r Response, err error) {
+	if err = m.Validate(); err != nil {
+		return
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return
+	}
+	r, err = c.defaultRequest(b, AdvancedMessagePath)
+	return
+}
+
+func (c Client) defaultRequest(b []byte, path string) (r Response, err error) {
+	req, err := http.NewRequest(http.MethodPost, c.BaseURL+path, bytes.NewBuffer(b))
 	if err != nil {
 		return
 	}
 	req.SetBasicAuth(c.Username, c.Password)
 	req.Header.Add("Content-Type", "application/json")
-
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return

@@ -17,6 +17,7 @@ type ResponseMessage struct {
 // ResponseStatus ...
 type ResponseStatus struct {
 	ID          int    `json:"id"`
+	Action      string `json:"action,omitempty"`
 	GroupID     int    `json:"groupId"`
 	GroupName   string `json:"groupName"`
 	Name        string `json:"name"`
