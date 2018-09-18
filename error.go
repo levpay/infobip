@@ -3,11 +3,17 @@ package infobip
 import "fmt"
 
 var (
-	// ErrForNonAlphanumeric for invalid numbers
-	ErrForNonAlphanumeric = Error{Err: "non-alphanumeric 'From' value must be between 3 and 14 numbers"}
+	// ErrForDestinationNonAlphanumeric ...
+	ErrForDestinationNonAlphanumeric = Error{Err: "non-alphanumeric 'Destination' value must be between 3 and 14 numbers"}
 
-	// ErrForAlphanumeric for invalid names
-	ErrForAlphanumeric = Error{Err: "alphanumeric 'From' value must be between 3 and 13 characters"}
+	// ErrForFromNonAlphanumeric ...
+	ErrForFromNonAlphanumeric = Error{Err: "non-alphanumeric 'From' value must be between 3 and 14 numbers"}
+
+	// ErrForFromAlphanumeric ...
+	ErrForFromAlphanumeric = Error{Err: "alphanumeric 'From' value must be between 3 and 13 characters"}
+
+	// ErrForToNonAlphanumeric ...
+	ErrForToNonAlphanumeric = Error{Err: "non-alphanumeric 'To' value must be between 3 and 14 numbers"}
 )
 
 // Error for Infobip
