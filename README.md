@@ -2,9 +2,9 @@
 
 Infobip API client library in Go
 
-[![Build Status](https://travis-ci.org/nuveo/infobip.svg?branch=master)](https://travis-ci.org/nuveo/infobip)
-[![GoDoc](https://godoc.org/github.com/nuveo/infobip?status.png)](https://godoc.org/github.com/nuveo/infobip)
-[![Go Report Card](https://goreportcard.com/badge/github.com/nuveo/infobip)](https://goreportcard.com/report/github.com/nuveo/infobip)
+[![Build Status](https://travis-ci.org/levpay/infobip.svg?branch=master)](https://travis-ci.org/levpay/infobip)
+[![GoDoc](https://godoc.org/github.com/levpay/infobip?status.png)](https://godoc.org/github.com/levpay/infobip)
+[![Go Report Card](https://goreportcard.com/badge/github.com/levpay/infobip)](https://goreportcard.com/report/github.com/levpay/infobip)
 
 ## Usage
 
@@ -28,7 +28,7 @@ package main
 import (
     "log"
 
-    "github.com/nuveo/infobip"
+    "github.com/levpay/infobip"
 )
 
 func main() {
@@ -53,7 +53,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/nuveo/infobip"
+    "github.com/levpay/infobip"
 )
 
 func main() {
@@ -100,7 +100,7 @@ package main
 import (
     "log"
 
-    "github.com/nuveo/infobip"
+    "github.com/levpay/infobip"
 )
 
 func main() {
@@ -135,7 +135,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/nuveo/infobip"
+    "github.com/levpay/infobip"
 )
 
 func main() {
