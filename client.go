@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 const (
@@ -30,10 +31,12 @@ type Client struct {
 // ClientWithBasicAuth returns a pointer to infobip.Client with Infobip funcs
 func ClientWithBasicAuth(username, password string) *Client {
 	return &Client{
-		BaseURL:    "https://api.infobip.com/",
-		Username:   username,
-		Password:   password,
-		HTTPClient: &http.Client{},
+		BaseURL:  "https://api.infobip.com/",
+		Username: username,
+		Password: password,
+		HTTPClient: &http.Client{
+			Timeout: 5 * time.Second,
+		},
 	}
 }
 
