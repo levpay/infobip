@@ -10,12 +10,15 @@ type BulkMessage struct {
 
 // Message contains the body request
 type Message struct {
-	From            string        `json:"from,omitempty"`
-	Destinations    []Destination `json:"destinations,omitempty"`
-	To              string        `json:"to,omitempty"`
-	Text            string        `json:"text"`
-	Transliteration string        `json:"transliteration,omitempty"`
-	LanguageCode    string        `json:"languageCode,omitempty"`
+	From              string        `json:"from,omitempty"`
+	Destinations      []Destination `json:"destinations,omitempty"`
+	To                string        `json:"to,omitempty"`
+	Text              string        `json:"text"`
+	Transliteration   string        `json:"transliteration,omitempty"`
+	LanguageCode      string        `json:"languageCode,omitempty"`
+	NotifyURL         string        `json:"notifyUrl,omitempty"`
+	NotifyContentType string        `json:"notifyContentType,omitempty"`
+	CallbackData      string        `json:"callbackData,omitempty"`
 }
 
 // Destination contains the recipient
