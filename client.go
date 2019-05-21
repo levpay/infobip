@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+
+	"github.com/google/go-querystring/query"
 )
 
 const (
@@ -12,6 +14,9 @@ const (
 
 	//AdvancedMessagePath for sending advanced messages
 	AdvancedMessagePath = "sms/1/text/advanced"
+
+	// AvailableNumberPath for searching number
+	AvailableNumberPath = "numbers/1/numbers/available"
 )
 
 // HTTPInterface helps Infobip tests
@@ -35,6 +40,22 @@ func ClientWithBasicAuth(username, password string) *Client {
 		Password:   password,
 		HTTPClient: &http.Client{},
 	}
+}
+
+func (c Client) SearchNumber(parmas SearchNumberParmas) (*SearchNumberResponse, error) {
+	v, err := query.Values(parmas)
+	if err != nil {
+		return nil, err
+	}
+
+	path := AvailableNumberPath + "?" + v.Encode()
+	resp := &SearchNumberResponse{}
+
+	if err := c.defaultGetRequest(path, resp); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 // SingleMessage sends one message to one recipient
@@ -78,4 +99,20 @@ func (c Client) defaultRequest(b []byte, path string) (r Response, err error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&r)
 	return
+}
+
+func (c Client) defaultGetRequest(path string, v interface{}) error {
+	req, err := http.NewRequest(http.MethodGet, c.BaseURL+path, nil)
+	if err != nil {
+		return err
+	}
+	req.SetBasicAuth(c.Username, c.Password)
+	req.Header.Add("Content-Type", "application/json")
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return json.NewDecoder(resp.Body).Decode(v)
 }
