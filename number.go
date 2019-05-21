@@ -14,9 +14,18 @@ type SearchNumberResponse struct {
 }
 
 type Number struct {
-	NumberKey    string   `json:"numberKey,omitempty"`
-	Number       string   `json:"number,omitempty"`
-	Country      string   `json:"country,omitempty"`
-	Type         string   `json:"type,omitempty"`
-	Capabilities []string `json:"capabilities,omitempty"`
+	NumberKey    string      `json:"numberKey,omitempty"`
+	Number       string      `json:"number,omitempty"`
+	Country      string      `json:"country,omitempty"`
+	Type         string      `json:"type,omitempty"`
+	Capabilities []string    `json:"capabilities,omitempty"`
+	Shared       bool        `json:"shared,omitempty"`
+	Price        NumberPrice `json:"price,omitempty"`
+}
+
+type NumberPrice struct {
+	PricePerMonth     float32 `json:"pricePerMonth,omitempty"`
+	SetupPrice        float32 `json:"setupPrice,omitempty"`
+	InitialMonthPrice float32 `json:"initialMonthPrice,omitempty"`
+	Currency          string  `json:"currency,omitempty"`
 }

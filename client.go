@@ -42,6 +42,7 @@ func ClientWithBasicAuth(username, password string) *Client {
 	}
 }
 
+// SearchNumber return a list of available number
 func (c Client) SearchNumber(parmas SearchNumberParmas) (*SearchNumberResponse, error) {
 	v, err := query.Values(parmas)
 	if err != nil {
